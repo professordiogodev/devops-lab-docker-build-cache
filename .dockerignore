@@ -1,0 +1,1 @@
+# TODO: keep the build context small. The slow build uploads 40 MB of `data/` and the whole .git every time.

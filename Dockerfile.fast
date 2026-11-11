@@ -1,0 +1,8 @@
+# TODO: the same image, built so that a change to ONE Python file rebuilds in seconds.
+#   - python:3.12-slim, WORKDIR /app
+#   - copy ONLY pollie/requirements.txt first, install the dependencies in their own layer,
+#     with a BuildKit cache mount for pip (RUN --mount=type=cache,target=/root/.cache/pip pip install ...)
+#   - THEN copy the application package (pollie/pollie) as the last layer
+#   - apt-get update and install in ONE RUN, with --no-install-recommends and the apt lists removed in the same RUN
+#     (the runtime needs only libpq5; build tools are not needed because Pollie's dependencies ship wheels)
+#   - numeric non-root USER at the end, same CMD as Dockerfile.slow but with the package path you chose
