@@ -22,11 +22,19 @@
 
 ## 🎬 The situation
 
-<p align="center"><img src="assets/gifs/situation.gif" width="300" alt="Animation: docker build (CACHED)"></p>
+<p align="center"><img src="assets/gifs/situation.gif" width="300" alt="A build timer dropping from minutes to a second as layers are cached"></p>
 
-Pollie's CI builds its API image on every commit. It takes minutes, and it takes the same minutes whether you changed one comment or the whole application. Developers push less often because of it. Last week somebody suggested "just caching the layers in CI", and then nobody could explain why the cache they already have never helps.
+```text
+LAB NOTEBOOK - Pollie API image build                        (CI, every commit)
+Observation 1 : change one comment            -> build takes minutes
+Observation 2 : change the whole application  -> build takes the same minutes
+Observation 3 : a teammate suggested "cache the layers in CI"
+Observation 4 : nobody could explain why the cache we already have never helps
+Hypothesis    : the cause is not in CI; it is in the order of the lines of
+                the Dockerfile and in a missing .dockerignore
+```
 
-The cause is almost always the same, and it is not in CI. It is in the order of the lines of the `Dockerfile` and in a missing `.dockerignore`. Docker's build cache is simple and strict, and once you know its single rule you can make a build that takes a second where it took a minute. You will measure first, then fix, then prove that the cache is **correct** (a changed dependency file must still rebuild the dependencies) and not merely fast.
+Developers push less often because of the wait. Docker's build cache is simple and strict, and once you know its single rule you can make a build that takes a second where it took a minute. Work like a scientist: **measure first**, change one thing, measure again, and finish by proving that the cache is **correct** (a changed dependency file must still rebuild the dependencies) and not merely fast.
 
 > [!IMPORTANT]
 > **Your mission**
